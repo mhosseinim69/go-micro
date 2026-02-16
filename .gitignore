@@ -34,3 +34,7 @@ go.work.sum
 
 # Ignore all binaries
 broker-service/brokerApp
+authentication-service/authApp
+
+# Ignore all database files
+project/db-data
