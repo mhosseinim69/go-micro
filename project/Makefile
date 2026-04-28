@@ -5,6 +5,7 @@ SHELL=cmd.exe
 FRONT_END_BINARY=frontApp.exe
 BROKER_BINARY=brokerApp
 AUTH_BINARY=authApp
+LOGGER_BINARY=loggerServiceApp
 # ==============================
 # Docker commands
 # ==============================
@@ -16,7 +17,7 @@ up:
 	@echo Docker images started!
 
 ## up_build: stop containers, build everything, and start again
-up_build: build_broker build_auth
+up_build: build_broker build_auth build_logger
 	@echo Stopping Docker images (if running)...
 	docker-compose down
 	@echo Building and starting Docker images...
@@ -37,6 +38,12 @@ down:
 build_broker:
 	@echo Building broker binary...
 	cd ..\broker-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0&& go build -o $(BROKER_BINARY) ./cmd/api
+	@echo Done!
+
+## build_logger: build logger as Linux binary (for Docker)
+build_logger:
+	@echo Building logger binary...
+	cd ..\logger-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0&& go build -o $(LOGGER_BINARY) ./cmd/api
 	@echo Done!
 
 ## build_auth: build auth as Linux binary (for Docker)
