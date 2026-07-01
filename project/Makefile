@@ -7,6 +7,7 @@ BROKER_BINARY=brokerApp
 AUTH_BINARY=authApp
 LOGGER_BINARY=loggerServiceApp
 MAIL_BINARY=mailerApp
+LISTENER_BINARY=listenerApp
 # ==============================
 # Docker commands
 # ==============================
@@ -18,7 +19,7 @@ up:
 	@echo Docker images started!
 
 ## up_build: stop containers, build everything, and start again
-up_build: build_broker build_auth build_logger build_mail
+up_build: build_broker build_auth build_logger build_mail build_listener
 	@echo Stopping Docker images (if running)...
 	docker-compose down
 	@echo Building and starting Docker images...
@@ -45,6 +46,12 @@ build_broker:
 build_logger:
 	@echo Building logger binary...
 	cd ..\logger-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0&& go build -o $(LOGGER_BINARY) ./cmd/api
+	@echo Done!
+
+## build_listener: build listener as Linux binary (for Docker)
+build_listener:
+	@echo Building listener binary...
+	cd ..\listener-service && set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0&& go build -o $(LISTENER_BINARY) .
 	@echo Done!
 
 ## build_auth: build auth as Linux binary (for Docker)
